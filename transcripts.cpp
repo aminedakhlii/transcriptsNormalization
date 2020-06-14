@@ -4,10 +4,11 @@
 
 #include "transcripts.hpp"
 
-
 int termsNum ;
 Cumulative cumulative ;
 int sheetNumber ;
+char * file ; 
+
 
 void generateStudentXML(Student student) {
 
@@ -98,7 +99,7 @@ void threadFunc(int iteration ,vector<Term> * terms ,  int * lastTermPosition , 
   Book * book = xlCreateXMLBook() ;
   if(book)
     {
-      if(book->load("trans.xlsx"))
+      if(book->load(file))
         {
 
           Sheet* sheet = book->getSheet(sheetNumber);
@@ -137,7 +138,7 @@ void FirstAccess(int * termsNum , Student * student){
   Book * book = xlCreateXMLBook() ;
   if(book)
     {
-      if(book->load("trans.xlsx"))
+      if(book->load(file))
         {
 
           Sheet* sheet = book->getSheet(sheetNumber);
@@ -153,14 +154,15 @@ void FirstAccess(int * termsNum , Student * student){
 
 
 
-int main()
+int main(int argc , char * argv[])
 {
   auto start = chrono::high_resolution_clock::now();
 
+  file = argv[1] ;
 
   Student student ;
   int lastTermPosition = 20 ;
-  cin >> sheetNumber ; 
+  sheetNumber = 0;
   //sheetNumber = 1 ;
 
   FirstAccess(&termsNum,&student);
